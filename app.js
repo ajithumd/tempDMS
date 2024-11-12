@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const axios = require('axios');
+const bodyParser = require('body-parser');
 const { DBSQLClient } = require('@databricks/sql');
 
 var token           = "dapi72a3bf7e3d89aaac9fca81d8f81fcc73-3";
@@ -58,7 +60,8 @@ app.get('/addPolicy', (req, res) => {
   res.render('addPolicy');  // render index.ejs
 });
 app.get('/register', (req, res) => {
-  res.render('register');  // render index.ejs
+  res.render('register'); 
+  
 });
 app.get('/login', (req, res) => {
   res.render('login');  // render index.ejs
@@ -95,3 +98,14 @@ app.get('*', (req, res)=>{
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
+
+app.get('sign-in',(req,res)=>{
+  try {
+    const { query } = req.body;
+    const result = await executeDatabricksQuery(query);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while executing the query' });
+  }
+
+})
