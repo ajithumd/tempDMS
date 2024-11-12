@@ -36,28 +36,28 @@ try {
   const data = await result.json();
   const tableBody = document.querySelector('#data-table tbody');
   
-//   if(data.length!=0)
-//   {
-//   tableBody.innerHTML='';
-//   data.forEach(policy => {
-//     const row = document.createElement('tr');
+  if(data.length!=0)
+  {
+  tableBody.innerHTML='';
+  data.forEach(policy => {
+    const row = document.createElement('tr');
 	    
-//     // Create and append table cells for each policy property
-//     row.innerHTML = `
-// 	  <td>${policy.PolicyID|| 'N/A'}</td>
-//       <td>${policy.PolicyName || 'N/A'}</td>
-//       <td>${policy.Category || 'N/A'}</td>
-//       <td>${policy.Priority || 'N/A'}</td>
-//       <td>${policy.PolicyDescription || 'N/A'}</td>
-// 	  <td>
-// 		<i class="mdi mdi-pencil lead"></i>
-// 		<i class="mdi mdi-delete lead text-danger ml-2"></i>
-// 	  </td>
-//     `;
+    // Create and append table cells for each policy property
+    row.innerHTML = `
+	  <td>${policy.PolicyID|| 'N/A'}</td>
+      <td>${policy.PolicyName || 'N/A'}</td>
+      <td>${policy.Category || 'N/A'}</td>
+      <td>${policy.Priority || 'N/A'}</td>
+      <td>${policy.PolicyDescription || 'N/A'}</td>
+	  <td>
+		<i class="mdi mdi-pencil lead"></i>
+		<i class="mdi mdi-delete lead text-danger ml-2"></i>
+	  </td>
+    `;
     
-//     tableBody.appendChild(row);
-//   });
-// }
+    tableBody.appendChild(row);
+  });
+}
   list= JSON.stringify(data);
   console.log(list);
   return list;
@@ -70,6 +70,13 @@ try {
 
 window.onload = async function() {
 	  const data=await fetchAndDisplayPolicies();
+// 	  const data=fetch('/send-result', {
+// 	method: 'GET',
+// 	headers: {
+// 	  'Content-Type': 'application/json',
+// 	},
+// 	body: JSON.stringify({ query }),
+//   });
 	  const list=JSON.parse(data);
 	  // Show the main content
 	  //if(list!=null){
@@ -140,19 +147,7 @@ window.onload = async function() {
 												</tr>
 											</thead>
 											<tbody>
-												<% result.forEach(res => { %>
-													<tr>
-														<td><%= res.PolicyID || 'N/A' %></td>
-														<td><%= res.PolicyName || 'N/A' %></td>
-														<td><%= res.Category || 'N/A' %></td>
-														<td><%= res.Priority || 'N/A' %></td>
-														<td><%= res.PolicyDescription || 'N/A' %></td>
-														<td>
-															<i class="mdi mdi-pencil lead"></i>
-															<i class="mdi mdi-delete lead text-danger ml-2"></i>
-														</td>
-													</tr>
-												<% }); %>
+												
 												
 											</tbody>
 										</table>

@@ -57,6 +57,12 @@ app.get('/', (req, res) => {
 app.get('/addPolicy', (req, res) => {
   res.render('addPolicy');  // render index.ejs
 });
+app.get('/register', (req, res) => {
+  res.render('register');  // render index.ejs
+});
+app.get('/login', (req, res) => {
+  res.render('login');  // render index.ejs
+});
 // Route for the view policy Page
 app.get('/viewPolicy', (req, res) => {
   res.render('viewPolicy');  // render index.ejs
@@ -67,7 +73,17 @@ app.post('/execute-query', async (req, res) => {
     const { query } = req.body;
     const result = await executeDatabricksQuery(query);
     res.json(result);
-    res.render('result', {result});
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while executing the query' });
+  }
+});
+app.get('/send-result',async(req,res)=>{
+  try {
+    const query = "SELECT * FROM policies";
+    const result = await executeDatabricksQuery(query);
+    res.json(result);
+    res.render("membership", { result: undefined });
+    res.render('sendResult', {result});
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while executing the query' });
   }
