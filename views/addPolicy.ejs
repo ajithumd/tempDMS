@@ -1,0 +1,162 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Admin</title>
+<!-- plugins:css -->
+<link rel="stylesheet"
+	href="/adminResources/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="/adminResources/css/vendor.bundle.base.css">
+<link rel="stylesheet"
+	href="/adminResources/css/vendor.bundle.addons.css">
+<!-- endinject -->
+<!-- plugin css for this page -->
+<!-- End plugin css for this page -->
+<!-- inject:css -->
+<link rel="stylesheet" href="/adminResources/css/style.css">
+<!-- endinject -->
+<link rel="shortcut icon" href="/adminResources/images/favicon.png" />
+</head>
+
+<body>
+	<div class="container-scroller">
+		<!-- partial:../../partials/_navbar.html -->
+
+
+		<%- include('header') %>
+
+
+		<!-- partial -->
+		<div class="container-fluid page-body-wrapper">
+			<!-- partial:../../partials/_settings-panel.html -->
+			<!-- partial -->
+			<!-- partial:../../partials/_sidebar.html -->
+			
+			
+			<%- include('menu') %>
+			
+			
+			<!-- partial -->
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card">
+							<div class="card-header custom-card-header">
+							<h4 class="text-white m-0">Add Policy</h4>
+							</div>
+								<div class="card-body">
+									<form class="cmxform" id="signupForm" method="post" action="addCompany" modelAttribute="CompanyVO">
+										<fieldset>
+											<div class="form-group">
+												<label for="policyname">Policy Name</label> 
+												<input path="policyname" id="PolicyName" class="form-control" name="PolicyName"/>
+											</div>
+											<div class="row">
+												<div class="form-group col-6">
+													<label for="category">Category</label> 
+													<select path="category" id="Category" class="form-control" name="Category">
+                                                        <option value=""disabled selected>Select category</option>
+														<option value="Security">Security</option>
+														<option value="Confidentiality">Confidentiality</option>
+														<option value="Integrity">Integrity</option>
+                                                    </select>
+												</div>
+												<div class="form-group col-6">
+													<label for="priority">Priority</label> 
+                                                    <select path="priorityid" id="Priority" class="form-control" name="Priority">
+                                                        <option value="" disabled selected>Select priority</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+                                                    </select>
+											</div>
+											<div class="row">
+												<div class="form-group col-6">
+													<label for="description">Policy Description</label>
+													<!-- Text area for typing the description -->
+													<textarea id="Description" name="description" class="form-control" rows="5" placeholder="Enter policy description here..."></textarea>
+												</div>
+												<div class="form-group col-6">
+													<label for="descriptionFile">Or Upload Policy Description</label>
+													<!-- File input for attaching a document -->
+													<input type="file" id="descriptionFile" name="descriptionFile" class="form-control-file">
+													<small class="form-text text-muted">Attach a document file (e.g., PDF, Word) with the policy details.</small>
+												</div>
+											</div>
+											<input type="hidden" path="id"/>
+											</div>
+											<input class="btn btn-primary" type="submit" value="Add" id="executeQuery">
+											<div id="result"></div>
+										</fieldset>
+									</f:form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- content-wrapper ends -->
+				<!-- partial:../../partials/_footer.html -->
+				
+				
+				<%- include('footer') %>
+				
+				
+				<!-- partial -->
+			</div>
+			<!-- main-panel ends -->
+		</div>
+		<!-- page-body-wrapper ends -->
+	</div>
+	<!-- container-scroller -->
+	<!-- plugins:js -->
+	 <script>
+		function escapeSingleQuotes(str) {
+			if (typeof str !== 'string') {
+				return str;
+			}
+			return str.replace(/'/g, "''");
+		}
+	 </script>
+	 <script>
+	document.getElementById('executeQuery').addEventListener('click', async () => {
+
+		const query ="INSERT INTO policies (PolicyName, Category, Priority, PolicyDescription) VALUES ('"+escapeSingleQuotes(document.getElementById('PolicyName').value)+"','"+escapeSingleQuotes(document.getElementById('Category').value)+"','"+escapeSingleQuotes(document.getElementById('Priority').value)+"','"+escapeSingleQuotes(document.getElementById('Description').value)+"');";
+		try {
+		  const response = await fetch('/execute-query', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ query }),
+		  });
+		  const data = await response.json();
+		  document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+		} catch (error) {
+		  console.error('Error:', error);
+		  document.getElementById('result').textContent = 'An error occurred';
+		}
+	  });
+	</script>
+	<script src="/adminResources/js/vendor.bundle.base.js"></script>
+	<script src="/adminResources/js/vendor.bundle.addons.js"></script>
+	<!-- endinject -->
+	<!-- inject:js -->
+	<script src="/adminResources/js/off-canvas.js"></script>
+	<script src="/adminResources/js/hoverable-collapse.js"></script>
+	<script src="/adminResources/js/template.js"></script>
+	<script src="/adminResources/js/settings.js"></script>
+	<script src="/adminResources/js/todolist.js"></script>
+	<!-- endinject -->
+	<!-- Custom js for this page-->
+	<script src="/adminResources/js/form-validation.js"></script>
+	<script src="/adminResources/js/bt-maxLength.js"></script>
+	<!-- End custom js for this page-->
+</body>
+
+</html>
